@@ -1,0 +1,6 @@
+name: Bedwars
+main: world.anhgelus.kubewars.bedwars.Bedwars
+version: '${version}'
+depend:
+  - KubeCore
+  - kotlin-stdlib
