@@ -4,13 +4,12 @@ import org.bukkit.Bukkit
 import org.bukkit.Material
 import world.anhgelus.kubewars.bedwars.game.BedwarsGame
 import world.anhgelus.kubewars.bedwars.game.BedwarsPrice
-import world.anhgelus.kubewars.bedwars.game.GameListener
-import world.anhgelus.kubewars.bedwars.game.SpigotListener
+import world.anhgelus.kubewars.bedwars.game.listeners.GameListener
+import world.anhgelus.kubewars.bedwars.game.listeners.SpigotListener
 import world.anhgelus.kubewars.kubecore.PluginBase
 import world.anhgelus.kubewars.kubecore.api.game.Game
 import world.anhgelus.kubewars.kubecore.api.player.KPlayer
 import world.anhgelus.kubewars.kubecore.api.player.KPlayerManager
-import world.anhgelus.kubewars.kubecore.api.shop.Price
 import world.anhgelus.kubewars.kubecore.utils.config.ConfigHelper
 
 class Bedwars : PluginBase() {
