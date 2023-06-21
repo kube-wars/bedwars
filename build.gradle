@@ -28,7 +28,7 @@ repositories {
 dependencies {
     compileOnly "org.spigotmc:spigot-api:1.8.8-R0.1-SNAPSHOT"
 
-    implementation "com.github.kube-wars:kube-core:0.3.3"
+    implementation "com.github.kube-wars:kube-core:0.4.2"
 }
 
 def targetJavaVersion = 1.8

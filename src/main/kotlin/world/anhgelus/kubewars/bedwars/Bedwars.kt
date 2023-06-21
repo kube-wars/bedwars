@@ -4,6 +4,7 @@ import org.bukkit.Bukkit
 import org.bukkit.Material
 import world.anhgelus.kubewars.bedwars.game.BedwarsGame
 import world.anhgelus.kubewars.bedwars.game.BedwarsPrice
+import world.anhgelus.kubewars.bedwars.game.BedwarsTeam
 import world.anhgelus.kubewars.bedwars.game.listeners.GameListener
 import world.anhgelus.kubewars.bedwars.game.listeners.SpigotListener
 import world.anhgelus.kubewars.kubecore.PluginBase

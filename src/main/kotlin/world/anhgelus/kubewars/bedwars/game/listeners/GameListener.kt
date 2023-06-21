@@ -4,13 +4,13 @@ import org.bukkit.GameMode
 import org.bukkit.event.entity.EntityDamageEvent
 import org.bukkit.scheduler.BukkitRunnable
 import world.anhgelus.kubewars.bedwars.Bedwars
-import world.anhgelus.kubewars.kubecore.api.game.event.GameListener
+import world.anhgelus.kubewars.kubecore.api.game.event.GameListenerBase
 import world.anhgelus.kubewars.kubecore.api.game.event.player.life.*
 import world.anhgelus.kubewars.kubecore.api.game.event.player.shop.*
 import world.anhgelus.kubewars.kubecore.api.game.event.state.*
 import world.anhgelus.kubewars.kubecore.utils.ChatHelper
 
-object GameListener : GameListener() {
+object GameListener : GameListenerBase() {
     override fun onBuy(event: BuyEvent) {
 
     }
@@ -21,22 +21,11 @@ object GameListener : GameListener() {
     override fun onDeath(event: DeathEvent) {
         // reset player
         val bplayer = event.player.player
-        event.player.toDefaultCondition()
+        event.player.toDefaultCondition(true)
         bplayer.gameMode = GameMode.SPECTATOR
-        var t = 5
-        object : BukkitRunnable() {
-            override fun run() {
-                if (t == 0) {
-                    SpigotListener.onRespawn(event.kplayers, event.player)
-                    cancel()
-                    return
-                }
-                // fuck NMS
-                @Suppress("DEPRECATION")
-                bplayer.sendTitle("${ChatHelper.error} Respawning in ${ChatHelper.success} $t", "")
-                t--
-            }
-        }.runTaskTimer(Bedwars.INSTANCE, 0, 20L)
+
+        event.player.team!!.respawnPlayer(event.player)
+
         event.player.stats.deaths++
         event.player.stats.save()
         if (event.cause != EntityDamageEvent.DamageCause.ENTITY_ATTACK) {
@@ -48,7 +37,7 @@ object GameListener : GameListener() {
     override fun onFinalDeath(event: FinalDeathEvent) {
         event.player.stats.finalDeaths++
         event.player.stats.save()
-        event.player.toDefaultCondition()
+        event.player.toDefaultCondition(true)
         event.player.player.gameMode = GameMode.SPECTATOR
     }
 
@@ -85,7 +74,11 @@ object GameListener : GameListener() {
             // fuck NMS
             @Suppress("DEPRECATION")
             it.player.sendTitle("${ChatHelper.error} You lost your respawn!", "")
-            // remove respawn
+            if (it.team == null) {
+                Bedwars.LOGGER.warning("Team is null for the player ${it.player.displayName}!")
+                return@forEach
+            }
+            it.team!!.respawnLost(event)
         }
     }
 
@@ -103,8 +96,8 @@ object GameListener : GameListener() {
 
     override fun onRespawn(event: RespawnEvent) {
         event.player.player.gameMode = GameMode.SURVIVAL
-//        event.player.player.teleport(event.player.team.spawn)
-        event.player.toDefaultCondition()
+        event.player.teleportToRespawn()
+        event.player.toDefaultCondition(true)
         ChatHelper.sendInfoToPlayer(event.player.player, "You have been respawned!")
     }
 }

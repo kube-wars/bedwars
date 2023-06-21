@@ -5,7 +5,6 @@ import org.bukkit.entity.EntityType
 import org.bukkit.event.EventHandler
 import org.bukkit.event.block.BlockBreakEvent
 import org.bukkit.event.entity.EntityDamageEvent
-import org.bukkit.event.entity.PlayerDeathEvent
 import org.bukkit.event.inventory.InventoryClickEvent
 import org.bukkit.event.inventory.InventoryCloseEvent
 import org.bukkit.event.player.PlayerInteractEntityEvent
@@ -33,7 +32,7 @@ object SpigotListener : SpigotGameListener() {
 
     }
 
-    override fun finalKillEvent(killer: KPlayer, killed: KPlayer, event: PlayerDeathEvent) {
+    override fun finalKillEvent(killer: KPlayer, killed: KPlayer, event: EntityDamageEvent) {
 
     }
 
@@ -61,6 +60,6 @@ object SpigotListener : SpigotGameListener() {
     fun onRequestShop(event: PlayerInteractEntityEvent) {
         if (event.rightClicked.type != EntityType.VILLAGER) return
         val player = KPlayer(event.player)
-        listeners.forEach { it.onRequestShop(RequestShopEvent(players, player)) }
+//        listeners.forEach { it.onRequestShop(RequestShopEvent(players, shop, player)) }
     }
 }
